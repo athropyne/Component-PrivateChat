@@ -7,17 +7,18 @@ from src.core.config import settings
 from src.core.infrastructure import storage, broker, cluster
 from src.core.types import ID
 from src.services.chat.dto import INPUT_Message, DTO_Connection
+from src.services.chat.repository import DB_GetChat, DB_NewMessage
 
 
 class SERVICE_SendMessage:
     def __init__(
             self,
-            # repository: DB_SendMessage = Depends()  # это будет сохранять сообщения чата в базе
+            repository: DB_NewMessage = Depends()
     ):
-        # self.repository = repository
-        pass
+        self.repository = repository
 
     async def __call__(self, model: INPUT_Message):
+        result = await self.repository(model)
         app_id = await storage.get(f"user:{model.recipient_id}")
         await broker.publish(model, stream=f"incoming-message-app-{app_id}")
 
@@ -25,14 +26,14 @@ class SERVICE_SendMessage:
 class SERVICE_GetChat:
     def __init__(
             self,
-            # repository: DB_GetChat = Depends()  # это будет сохранять сообщения чата в базе
+            repository: DB_GetChat = Depends()
     ):
-        # self.repository = repository
+        self.repository = repository
         pass
 
-    async def __call__(self, user_1: ID, user_2: ID, limit: int):
+    async def __call__(self, me: ID, him: ID, skip: int, limit: int):
         """Возвращает список последних сообщений отправленных между пользователями"""
-        pass
+        return await self.repository(me, him, skip, limit)
 
 
 class SERVICE_ReceiveMessage:

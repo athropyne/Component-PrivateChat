@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     # databases
     POSTGRES_USER: str = "postgres"
     POSTGRES_PASSWORD: str = "postgres"
-    POSTGRES_DB: str = "CoffeeShopUserManagement"
+    POSTGRES_DB: str = "Component_Chat"
     POSTGRES_SOCKET: str = "localhost"
     POSTGRES_LOGS: bool = True
 

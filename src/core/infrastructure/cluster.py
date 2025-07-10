@@ -49,7 +49,8 @@ class AppCluster:
                 except Exception as e:
                     print(f"Error in connections_heartbeat: {e}")
                 await asyncio.sleep(5)
-        except asyncio.CancelledError:
+        except asyncio.CancelledError as e:
+            print(e)
             print("connections_heartbeat task cancelled")
         except Exception as e:
             print(f"FATAL error in connections_heartbeat: {e}")

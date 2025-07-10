@@ -15,7 +15,7 @@ class Database:
 
     async def init(self, metadata: MetaData):
         async with self._engine.connect() as connection:
-            await connection.run_sync(metadata.drop_all)
+            # await connection.run_sync(metadata.drop_all)
             await connection.run_sync(metadata.create_all)
             await connection.commit()
         await self._engine.dispose(close=True)
