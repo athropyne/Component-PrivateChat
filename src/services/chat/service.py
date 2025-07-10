@@ -22,6 +22,19 @@ class SERVICE_SendMessage:
         await broker.publish(model, stream=f"incoming-message-app-{app_id}")
 
 
+class SERVICE_GetChat:
+    def __init__(
+            self,
+            # repository: DB_GetChat = Depends()  # это будет сохранять сообщения чата в базе
+    ):
+        # self.repository = repository
+        pass
+
+    async def __call__(self, user_1: ID, user_2: ID, limit: int):
+        """Возвращает список последних сообщений отправленных между пользователями"""
+        pass
+
+
 class SERVICE_ReceiveMessage:
     async def __call__(self, user_id: ID, ws: WebSocket):
         old_connection = await storage.get(f"user:{user_id}")

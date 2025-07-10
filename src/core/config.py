@@ -15,5 +15,12 @@ class Settings(BaseSettings):
     REDIS_BROKER_SOCKET: str = "localhost:6379"
     REDIS_BROKER_DB: int = 1
 
+    # databases
+    POSTGRES_USER: str = "postgres"
+    POSTGRES_PASSWORD: str = "postgres"
+    POSTGRES_DB: str = "CoffeeShopUserManagement"
+    POSTGRES_SOCKET: str = "localhost"
+    POSTGRES_LOGS: bool = True
+
 
 settings = Settings()

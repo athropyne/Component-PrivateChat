@@ -10,7 +10,7 @@ chat_router = APIRouter(prefix="/chat")
 
 
 @chat_router.post(
-    "/send_message",
+    "/",
     status_code=status.HTTP_201_CREATED,
     summary="Отправить сообщение в чат",
     description="""
@@ -22,6 +22,27 @@ async def send_message(
         service: SERVICE_SendMessage = Depends()
 ):
     await service(model)
+
+
+@chat_router.get(
+    "/",
+    status_code=status.HTTP_200_OK,
+    summary="Получить список сообщений с пользователем",
+    description="""
+    Возвращает список последний сообщений с пользователем отсортированных по дате
+    """
+)
+async def get_chat(
+        user_1: ID,
+        user_2: ID,
+        limit: int = 30,
+        service: SERVICE_GetChat = Depends()
+):
+    return await service(
+        user_1,
+        user_2,
+        limit
+    )
 
 
 @chat_router.websocket(
