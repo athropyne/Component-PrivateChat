@@ -31,7 +31,7 @@ async def send_message(
         model: INPUT_Message,
         service: SERVICE_SendMessage = Depends()
 ):
-    await service(model)
+    return await service(model)
 
 
 @chat_router.get(
@@ -70,7 +70,9 @@ async def kill_old_connection_handler(
         connection: DTO_Connection,
 ):
     if connection.app_id != settings.APP_GLOBAL_ID and connection.user_id in cluster.connections:
-        del cluster.connections[connection.user_id]
+        await cluster.disconnect(connection.user_id)
+    else:
+        print("Старое подключение не удалено")
 
 
 @chat_router.subscriber(stream=f"incoming-message-app-{settings.APP_GLOBAL_ID}")
